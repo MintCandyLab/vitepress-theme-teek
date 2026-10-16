@@ -1,5 +1,6 @@
 import { defineConfig } from "vitepress";
 import llmstxt from "vitepress-plugin-llms";
+import { createRewrites } from "vitepress-theme-teek/config";
 import { teekConfig } from "./teekConfig";
 
 const description = [
@@ -12,6 +13,7 @@ const description = [
 export default defineConfig({
   extends: teekConfig,
   base: "/vitepress-theme-teek/",
+  rewrites: createRewrites({ srcDir: "docs" }),
   title: "vitepress-theme-teek",
   description: description,
   cleanUrls: false,
@@ -59,19 +61,11 @@ export default defineConfig({
     },
   },
   sitemap: {
-    hostname: "https://mintcandylab.github.io/vitepress-theme-teek", // ** 换成你的域名
-    transformItems: (items) => {
-      const permalinkItemBak: typeof items = [];
-      // 使用永久链接生成 sitemap
-      const permalinks = (globalThis as any).VITEPRESS_CONFIG.site.themeConfig
-        .permalinks;
-      items.forEach((item) => {
-        const permalink = permalinks?.map[item.url];
-        if (permalink)
-          permalinkItemBak.push({ url: permalink, lastmod: item.lastmod });
-      });
-      return [...items, ...permalinkItemBak];
-    },
+    hostname: "https://mintcandylab.github.io/vitepress-theme-teek/", // ** 换成你的域名
+    // VitePress 内部用 new URL(item.url, hostname) 拼接地址，而 item.url 以 / 开头会覆盖掉 hostname 的 base 路径，
+    // 因此这里去掉开头的 /，让地址带上 /vitepress-theme-teek/ 前缀
+    transformItems: (items) =>
+      items.map((item) => ({ ...item, url: item.url.replace(/^\//, "") })),
   },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
@@ -93,10 +87,10 @@ export default defineConfig({
       {
         text: "指南",
         link: "/guide/intro",
-        activeMatch: "/01.指南/",
+        activeMatch: "/guide/",
       },
-      { text: "配置", link: "/reference/config", activeMatch: "/10.配置/" },
-      { text: "开发", link: "/develop/intro", activeMatch: "/15.主题开发/" },
+      { text: "配置", link: "/reference/config", activeMatch: "/reference/" },
+      { text: "开发", link: "/develop/intro", activeMatch: "/develop/" },
       {
         text: "功能页",
         items: [

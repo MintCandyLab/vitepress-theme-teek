@@ -47,8 +47,6 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Build with VitePress
         run: pnpm docs:build
-      - name: Generate permalink files
-        run: node scripts/gen-permalinks.mjs
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

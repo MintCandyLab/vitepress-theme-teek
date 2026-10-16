@@ -22,6 +22,8 @@ export const teekConfig = defineTeekConfig({
   vitePlugins: {
     sidebarOption: {
       initItems: false,
+      // 永久链接使用 Rewrites 方式后，侧边栏按 rewrites 结果生成
+      resolveRule: "rewrites",
     },
   },
 });
