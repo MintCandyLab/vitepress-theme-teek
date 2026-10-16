@@ -11,6 +11,7 @@ const description = [
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   extends: teekConfig,
+  base: "/vitepress-theme-teek/",
   title: "vitepress-theme-teek",
   description: description,
   cleanUrls: false,
@@ -58,7 +59,7 @@ export default defineConfig({
     },
   },
   sitemap: {
-    hostname: "https://vp.teek.top", // ** 换成你的域名
+    hostname: "https://mintcandylab.github.io/vitepress-theme-teek", // ** 换成你的域名
     transformItems: (items) => {
       const permalinkItemBak: typeof items = [];
       // 使用永久链接生成 sitemap
