@@ -91,6 +91,7 @@ export default defineConfig({
       },
       { text: "配置", link: "/reference/config", activeMatch: "/reference/" },
       { text: "开发", link: "/develop/intro", activeMatch: "/develop/" },
+      { text: "学习", link: "/english/daily-life-and-city-living", activeMatch: "/study|/english" },
       {
         text: "功能页",
         items: [

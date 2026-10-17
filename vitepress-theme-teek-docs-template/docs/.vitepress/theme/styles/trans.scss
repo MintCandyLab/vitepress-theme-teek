@@ -1,0 +1,60 @@
+// 中英对照（逐句内嵌）样式 + 三态显示模式
+//
+// 文章 md 中的 <div class="tk-trans"> 只是「译文数据载体」，默认隐藏；
+// 页面挂载后由 utils/bilingual.ts 把英文按句切分、与译文逐句配对，
+// 重写为 .tk-bi 段落（.tk-sent > .tk-sent-en + .tk-sent-zh），并移除载体块。
+//
+// 显示模式由 html[data-bi-mode] 控制：en 仅英文 / bi 中英对照 / zh 仅中文。
+
+/* 译文数据载体默认隐藏（增强脚本处理后会从 DOM 移除） */
+.tk-trans {
+  display: none;
+}
+
+/* 句子容器：仅英文时按行内流式，保持普通段落连排 */
+.tk-sent {
+  display: inline;
+  vertical-align: baseline;
+}
+
+.tk-sent-en {
+  display: inline;
+}
+
+.tk-sent-zh {
+  display: block;
+  margin-top: 2px;
+  color: var(--vp-c-text-2);
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC",
+    "Source Han Sans SC", sans-serif;
+  font-size: 0.78em;
+  line-height: 1.7;
+}
+
+/* 默认（仅英文 / 未设置模式）：隐藏译文 */
+html:not([data-bi-mode="bi"]):not([data-bi-mode="zh"]) .tk-sent-zh {
+  display: none;
+}
+
+/* 中英对照 / 仅中文：每个句子独占一行（英文句 + 紧贴其下的中文行） */
+html[data-bi-mode="bi"] .tk-sent,
+html[data-bi-mode="zh"] .tk-sent {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.tk-sent:last-child {
+  margin-bottom: 0;
+}
+
+/* 仅中文：英文隐藏，中文提升为主体 */
+html[data-bi-mode="zh"] .tk-sent-en {
+  display: none;
+}
+
+html[data-bi-mode="zh"] .tk-sent-zh {
+  margin-top: 0;
+  color: var(--vp-c-text-1);
+  font-size: 0.95em;
+  line-height: 1.85;
+}
